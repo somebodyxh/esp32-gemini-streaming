@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 import serial
 import time
 import os
@@ -21,8 +18,7 @@ def user_chrome():
     print("输入你浏览器用户配置 我希望你用的是chrome 用其他的会出现奇怪的问题（")
     if SYSTEM == "Windows":
         USER_Input_Windows = input("输入你的用户配置地址 可以拖拽文件夹 或输入 'skip' 使用临时目录（不推荐，可能导致登录信息丢失）")
-        if USER_Input_Windows.strip().lower() == "skip":
-            USER_Input_Windows = "skip"  
+        if USER_Input_Windows.strip().lower() == "skip":  
             if USER_Input_Windows == "skip":
                 # 创建一个临时目录
                 import tempfile
@@ -37,7 +33,7 @@ def user_chrome():
             print("请输入用户数据目录路径（留空则使用 ~/.config/google-chrome/Gemini_Pro）")
             USER_Input_Linux = input("路径: ").strip()
             if USER_Input_Linux:
-                return os.path.abspath(user_input)
+                return os.path.abspath(USER_Input_Linux)
             else:
                 USER_Input_Linux= os.path.expanduser("~/.config/google-chrome/Gemini_Pro")
                 os.makedirs(USER_Input_Linux, exist_ok=True)
@@ -92,7 +88,7 @@ def init_driver():
     os.makedirs(USER_DIR, exist_ok=True)
     options.add_argument(f"--user-data-dir={USER_DIR}")
     
-    # Linux 下可能需要添加以下参数以避免沙盒权限问题（根据实际情况启用）
+    # Linux 下可能需要添加以下参数以避免沙盒权限问题
     # if SYSTEM != "Windows":
     #     options.add_argument("--no-sandbox")
     #     options.add_argument("--disable-dev-shm-usage")
@@ -144,7 +140,7 @@ def throttled_serial_send(ser, text):
             ser.flush()
             time.sleep(0.05)
             print(chunk.decode('utf-8', errors='ignore'), end='', flush=True)
-        print("\n[+] 流式回传完毕")
+        print("\n[+] 回传完毕")
     except Exception as e:
         print(f"\n[X] 回传出错: {e}")
     finally:
