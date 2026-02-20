@@ -15,7 +15,7 @@ import platform
 import serial
 def Run_Selenium():
     SYSTEM = platform.system()
-    NAME_AI = input("在这里选择你想使用的ai ").strip().lower()
+    NAME_AI = input("在这里输入你想使用的ai目前我只写了gemini实现 ").strip().lower()
     if NAME_AI == "gemini":
         def user_chrome():
         #这是获取你上chrome用户配置的功能阿 临时目录也行 就是要重新登录。。。。。。。。我这一段写的和shit一样 轻喷
@@ -44,7 +44,7 @@ def Run_Selenium():
                         return USER_Input_Linux
         def SYSTEM_Config():
             if SYSTEM == "Windows":
-                # Windows 串口号 (根据实际情况修改)
+                # Windows 串口号 
                 COM_PORT = select_serial_port()
                 # Chrome 用户数据目录 
                 USER_DIR = user_chrome()
@@ -59,7 +59,7 @@ def Run_Selenium():
                  
             def init_driver():
                 options = Options()
-                # 确保目录存在（可选）
+                # 确保目录存在
                 os.makedirs(USER_DIR, exist_ok=True)
                 options.add_argument(f"--user-data-dir={USER_DIR}")
                 
@@ -79,7 +79,7 @@ def Run_Selenium():
             print(f"[*] 串口: {COM_PORT}")
             print(f"[*] 用户数据目录: {USER_DIR}")
 
-            # ========== 全局变量 ==========
+            # 全局变量 
             driver = init_driver()
             ser = serial.Serial(COM_PORT, BAUD_RATE, timeout=0.01)
 
@@ -89,7 +89,7 @@ def Run_Selenium():
             waiting_for_reply = False
             is_transmitting = False
 
-            # ========== 辅助函数 ==========
+            #辅助函数
 
             def sync_topics():
                 nonlocal current_topics
@@ -109,7 +109,7 @@ def Run_Selenium():
                 except Exception as e:
                     print(f"[X] sync_topics 异常: {e}")
 
-            # ========== 主循环 ==========
+            # 主循环
             print("[*] 就绪")
 
             while True:
@@ -117,7 +117,7 @@ def Run_Selenium():
                     # 检查浏览器是否还活着
                     _ = driver.window_handles
 
-                    # 1. 监控 Gemini 回复
+                    # 1. 监控 Gemini 回复    这一块判断太雷普了我会改
                     if waiting_for_reply and not is_transmitting:
                         stop_btn_selector = "button:has(.mat-mdc-button-touch-target)[aria-label*='Stop'], button:has(.mat-mdc-button-touch-target)[aria-label*='停止']"
                         if len(driver.find_elements(By.CSS_SELECTOR, stop_btn_selector)) == 0:
@@ -150,7 +150,7 @@ def Run_Selenium():
                                     throttled_serial_send(ser, "NEW_CHAT_OK")
                                 else:
                                     driver.get("https://gemini.google.com/app")
-                                    print("[!] 警告 请检查你是否打开了侧边栏 已通过 URL 跳转新建")
+                                    print("[!] 请检查你是否打开了侧边栏 已通过 URL 跳转新建")
                                 waiting_for_reply = False
                             elif msg.isdigit():
                                 idx = int(msg) - 1
@@ -166,7 +166,7 @@ def Run_Selenium():
                                 last_reply = ""
 
                 except (InvalidSessionIdException, WebDriverException):
-                    print("[!] 浏览器会话中断，正在重启...")
+                    print("浏览器会话中断，重启...")
                     try:
                         driver.quit()
                     except:
