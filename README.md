@@ -1,4 +1,4 @@
-# esp32-gemini-streaming
+# esp32-gemini-streaming-python
 使用python脚本和esp32实现蓝牙连接AI模型<br>
 支持 Gemini API 和 DeepSeek API 两种后端 可自行扩展<br>
 你需要配置的pip包目前有 pyserial openai google-genai  <br>
@@ -15,5 +15,4 @@ v0.5demo : 将我之前用的小工具提交到github上 并做了windows与linu
 v0.6demo : 全面大改项目结构 将之前在一个python脚本内的代码模块化了 适合调试与改进 同时增加后续更新api的接口<br>
 v0.7demo : 完成api模式 支持gemini与deepseek双后端 自动拉取可用模型列表 移除Selenium模式<br>
 
-碎碎念<br>
-之所以保留原始的py串口脚本是因为以后可以用在树梅派上 目前准备把py逻辑移植到c<br>
+!!!!请注意 此分支不会再收到任何更新<br>
